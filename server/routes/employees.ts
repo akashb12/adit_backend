@@ -7,7 +7,7 @@ import {
 } from "../controller/employee.controller";
 const router: Router = Router();
 router.post("/create", addEmployee);
-router.get("/get/:companyId", getEmployee);
+router.post("/get/:companyId", getEmployee);
 router.put("/update/:id", updateEmployee);
 router.delete("/delete/:id", deleteEmployee);
 export = router;

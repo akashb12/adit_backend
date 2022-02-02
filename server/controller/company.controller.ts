@@ -9,7 +9,7 @@ export const addCompany = async (
   const data = req.body;
   const alreadyExist = await Company.query().findOne({ name: data.name });
   if (alreadyExist) {
-    throw new Error("company already exist");
+    return res.status(409).json({ message: "company already exist" });
   }
   const create = await Company.query().insert(data);
 
@@ -34,7 +34,7 @@ export const updateCompany = async (
   next: NextFunction
 ) => {
   const data = req.body;
-
+  console.log(data);
   const update = await Company.query().patchAndFetchById(req.params.id, data);
 
   return res.status(202).json({ status: true, update });

@@ -1,4 +1,5 @@
 import { NextFunction, Response } from "express";
+import { Company } from "../DataBase/models/Company";
 import { Employees } from "../DataBase/models/Employees";
 
 export const addEmployee = async (
@@ -12,9 +13,9 @@ export const addEmployee = async (
     company_id: req.body.companyId,
   });
   if (alreadyExist) {
-    throw new Error("employee already exist");
+    return res.status(409).json({ message: "employee already exist" });
   }
-  const create = await Employees.query().insert(data);
+  const create = await Employees.query().insert(data).withGraphFetched("role");
 
   return res.status(201).json({ status: true, create });
 };
@@ -25,11 +26,14 @@ export const getEmployee = async (
   res: Response,
   next: NextFunction
 ) => {
-  var filter: any = { company_id: req.params.companyId };
-  if (req.body.roleId) {
-    filter.role_id = req.body.roleId;
-  }
-  const get = await Employees.query().where(filter);
+  var filter: any = { id: req.params.companyId };
+  // if (req.body.roleId) {
+  //   filter.role_id = req.body.roleId;
+  // }
+  const get = await Company.query()
+    .findOne(filter)
+    .modify("getEmployees", req.body.roleId);
+  // const get = await Employees.query().where(filter);
   return res.status(200).json({ status: true, get });
 };
 
@@ -41,7 +45,9 @@ export const updateEmployee = async (
 ) => {
   const data = req.body;
 
-  const update = await Employees.query().patchAndFetchById(req.params.id, data);
+  const update = await Employees.query()
+    .patchAndFetchById(req.params.id, data)
+    .withGraphFetched("role");
 
   return res.status(202).json({ status: true, update });
 };
