@@ -1,5 +1,6 @@
 import { NextFunction, Response } from "express";
 import { Company } from "../DataBase/models/Company";
+import { Employees } from "../DataBase/models/Employees";
 
 export const addCompany = async (
   req: any,
@@ -46,6 +47,10 @@ export const deleteCompany = async (
   res: Response,
   next: NextFunction
 ) => {
+  const deleteEmployee = await Employees.query()
+    .delete()
+    .where({ companyId: req.params.id });
+
   const deleteCompany = await Company.query().deleteById(req.params.id);
 
   return res.status(202).json({ status: true, deleteCompany });
