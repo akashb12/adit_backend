@@ -5,7 +5,6 @@ import { config } from "../config/config";
 
 function setupDb() {
   const env = config.env;
-  console.log(config.database);
   const db = knex({
     // @ts-ignore
     ...knexfile[env],
