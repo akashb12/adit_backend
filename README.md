@@ -16,3 +16,9 @@ steps to run backend
 4. run migrations - npm run migrate
 5. run seed data - npm run run-seed
 6. to start the server use command - npm run dev
+
+technologies used<br />
+nodejs <br />
+typescript <br />
+postgres <br />
+knexjs <br />
