@@ -2,7 +2,7 @@
 
 steps to run backend
 
-1. create .env file in root folder and add
+1. create .env file in root folder and add<br />
    DB_NAME=adit_db<br />
    DB_USERNAME=youruser<br />
    DB_PASSWORD=yourpass<br />
